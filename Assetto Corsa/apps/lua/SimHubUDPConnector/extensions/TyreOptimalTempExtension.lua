@@ -27,7 +27,7 @@ local wheelsState = carState.wheels ---@type ac.StateWheel
 local function maximumOptimalTemperature(compoundName, minTemp)
 	if (compoundName == nil) then
 		-- in replays those values are nil
-		return minTemp and (minTemp + 30) or 80
+		return nil
 	end
 	if string.find(compoundName, "Street") then
 		return minTemp + 10
