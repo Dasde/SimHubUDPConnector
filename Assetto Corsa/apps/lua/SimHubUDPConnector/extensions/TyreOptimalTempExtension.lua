@@ -26,10 +26,6 @@ local cspVersion = ac.getPatchVersion()
 ---@param minTemp number minimalOptimalTemperature
 ---@return number maximumOptimalTemperature
 local function maximumOptimalTemperature(compoundName, minTemp)
-	if (compoundName == nil) then
-		-- in replays those values where nil
-		return minTemp and (minTemp + 30) or 80
-	end
 	if string.find(compoundName, "Street") then
 		return minTemp + 10
 	elseif string.find(compoundName, "Intermediate") then
@@ -55,7 +51,7 @@ function TyreOptimalTempExtension:update(dt, customData)
 	customData.IdealPressureFront = carsUtils.getTyreConfigValue(carState.compoundIndex, true, "PRESSURE_IDEAL", 0)
 	customData.IdealPressureRear = carsUtils.getTyreConfigValue(carState.compoundIndex, false, "PRESSURE_IDEAL", 0)
 	customData.MinimumOptimalTemperature = wheelsState[0].tyreOptimumTemperature
-	customData.MaximumOptimalTemperature = maximumOptimalTemperature(customData.tyreCompound, customData.minimumOptimalTemperature)
+	customData.MaximumOptimalTemperature = maximumOptimalTemperature(customData.TyreCompound, customData.MinimumOptimalTemperature)
 	if (cspVersion.versionCompare(cspVersion, "0.2.7") > -1) then
 		-- TemperatureMultiplier shows fraction of optimum grip
 		customData.WheelFLTemperatureMultiplier = wheelsState[0].temperatureMultiplier
