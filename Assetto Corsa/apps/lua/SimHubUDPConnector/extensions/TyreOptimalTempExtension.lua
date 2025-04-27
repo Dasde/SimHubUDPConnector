@@ -54,7 +54,7 @@ function TyreOptimalTempExtension:update(dt, customData)
 	customData.IdealPressureFront = carsUtils.getTyreConfigValue(carState.compoundIndex, true, "PRESSURE_IDEAL", 0)
 	customData.IdealPressureRear = carsUtils.getTyreConfigValue(carState.compoundIndex, false, "PRESSURE_IDEAL", 0)
 	customData.MinimumOptimalTemperature = wheelsState[0].tyreOptimumTemperature
-	customData.MaximumOptimalTemperature = maximumOptimalTemperature(customData.tyreCompound,
+	customData.MaximumOptimalTemperature = maximumOptimalTemperature(customData.TyreCompound,
 		customData.MinimumOptimalTemperature)
 	if ac.getPatchVersionCode() >= 3334 then
 		-- if (cspVersion:versionCompare("0.2.7") > -1) then
