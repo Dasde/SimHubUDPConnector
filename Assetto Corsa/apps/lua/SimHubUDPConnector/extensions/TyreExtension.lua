@@ -103,7 +103,7 @@ end
 local timeSinceLastUpdate = 0
 
 function TyreExtension:update(dt, customData)
-	customData.TyreCompound = ac.getTyresLongName(0, carState.compoundIndex)
+	customData.TyreCompound = ac.getTyresName(0, carState.compoundIndex)
 	customData.IdealPressureFront = carsUtils.getTyreConfigValue(carState.compoundIndex, true, "PRESSURE_IDEAL", 0)
 	customData.IdealPressureRear = carsUtils.getTyreConfigValue(carState.compoundIndex, false, "PRESSURE_IDEAL", 0)
 	customData.MinimumOptimalTemperature = wheelsState[0].tyreOptimumTemperature
