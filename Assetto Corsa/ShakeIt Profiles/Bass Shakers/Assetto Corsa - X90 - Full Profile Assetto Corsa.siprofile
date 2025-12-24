@@ -63,6 +63,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "7ec91635-5a94-4c28-a242-be5bb87bb6a5",
           "AggregationMode": "Corners",
           "Filter": {
@@ -73,15 +74,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -139,6 +138,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "3dcbb8f3-cbad-4c90-8c08-bad3503a40d9",
           "AggregationMode": "Corners",
           "Filter": {
@@ -149,15 +149,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -215,6 +213,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "df7c2d5f-8169-46a4-8d06-5c117ce473aa",
           "AggregationMode": "Corners",
           "Filter": {
@@ -225,15 +224,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -291,6 +288,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "1261e52d-10b9-48ef-b9a1-b287441ef5fb",
           "AggregationMode": "Corners",
           "Filter": {
@@ -301,15 +299,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -367,6 +363,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "df145dfc-87c2-462c-9412-e3f90b3a6a7e",
           "AggregationMode": "Corners",
           "Filter": {
@@ -377,15 +374,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -443,6 +438,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "1efea112-6bc2-46d8-bf82-d9b95d3e914a",
           "AggregationMode": "Corners",
           "Filter": {
@@ -453,15 +449,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -519,6 +513,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "0e3f5bc9-a255-4561-bdc6-af5e4f43b9db",
           "AggregationMode": "Corners",
           "Filter": {
@@ -529,15 +524,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         },
@@ -595,6 +588,7 @@
             "Expression": "const DEFAULT_FREQUENCY = 26;\r\nconst MIN_FREQUENCY = 20;\r\nconst MAX_FREQUENCY = 120;\r\n\r\nreturn getFrequency(DEFAULT_FREQUENCY, MIN_FREQUENCY, MAX_FREQUENCY, $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationLength'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'), $prop('UDPConnectorDataPlugin.WheelRRRimRadius'));",
             "PreExpression": "// Frequency = Speed/waveLength\r\nfunction getFrequency(defaultFrequency, minFrequency, maxFrequency, vibrationLength, angularSpeed, wheelRadius) {\r\n   if (vibrationLength == 0) return defaultFrequency;\r\n   let speed = angularSpeed * wheelRadius ;\r\n   let frequency = speed / vibrationLength;\r\n   return Math.max(minFrequency, Math.min(frequency, maxFrequency));\r\n}"
           },
+          "AlwaysExecute": false,
           "ContainerId": "ba97aa5a-74e4-42ce-ac35-124c3920a254",
           "AggregationMode": "Corners",
           "Filter": {
@@ -605,15 +599,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 32,
             "UseHighFrequency": true,
             "HighFrequency": 26,
             "WhiteNoise": 2,
             "UseWhiteNoise": true,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 32,
             "OutputType": "ToneOutput"
           }
         }
@@ -630,25 +622,25 @@
       "FrontLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "FrontRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "ForceFrequencies": false,
@@ -664,25 +656,24 @@
       "RearRightFrequencyFormula": {
         "Expression": ""
       },
-      "ContainerId": "647b2ad8-183b-475f-b15b-8dd98460d1fa",
+      "AlwaysExecute": true,
+      "ContainerId": "41c7cc48-8e5a-4cc0-80ca-48196ed7249c",
       "AggregationMode": "Corners",
       "Filter": {
-        "GammaValue": 1.2500000000000002,
+        "GammaValue": 1.25,
         "InputGain": 320.0,
         "MinimumForce": 0,
         "Threshold": 0,
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": true,
-        "Frequency": 26,
         "UseHighFrequency": false,
         "HighFrequency": 50,
         "WhiteNoise": 4,
         "UseWhiteNoise": true,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": true,
+        "Frequency": 26,
         "OutputType": "ToneOutput"
       }
     },
@@ -740,6 +731,7 @@
         "Expression": "var rrrps = revolutionPerSecond($prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'));\r\n// Lockup percentage (0.0 to 1.0)\r\nvar lockup = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelRRRimRadius'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'));\r\n\r\n// Additional rising frequency element (only applies if lockup > 0.75)\r\nvar risingFrequency = 0;\r\nif (lockup > 0.75) {\r\n    // Scale the rising element from 0 to a max value (e.g., 40) as lockup moves from 0.75 to 1.0\r\n    risingFrequency = (lockup - 0.75) / 0.25 * 40; // Adjust \"40\" to control the maximum added frequency\r\n}\r\n\r\n// Final frequency calculation\r\nvar frequency = ((rrrps+30) + risingFrequency)*-1;\r\nvar frequency = Math.max(frequency, 30);\r\n\r\n// Return the resulting frequency\r\nreturn frequency;",
         "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (speedMS - groundSpeedMS) / Math.max(groundSpeedMS, speedMS);\r\n}\r\n\r\nfunction revolutionPerSecond(angularSpeed) {\r\n    return angularSpeed/6.28;\r\n}"
       },
+      "AlwaysExecute": false,
       "ContainerId": "0bf44f8d-e5a0-493b-af0e-f21b6c6f9e6b",
       "AggregationMode": "Corners",
       "Filter": {
@@ -750,15 +742,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 80,
         "UseHighFrequency": true,
         "HighFrequency": 44,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 80,
         "Delay": 5,
         "DelayEnabled": true,
         "AssignToChannelGroup": true,
@@ -796,6 +786,7 @@
       "RearRightFrequencyFormula": {
         "Expression": ""
       },
+      "AlwaysExecute": false,
       "ContainerId": "9f27f681-f540-47c6-b88c-5f93433d52c3",
       "AggregationMode": "Front/Rear",
       "Filter": {
@@ -806,15 +797,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 44,
         "UseHighFrequency": false,
         "HighFrequency": 50,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 44,
         "OutputType": "ToneOutput"
       }
     },
@@ -856,6 +845,7 @@
           "RearRightFrequencyFormula": {
             "Expression": ""
           },
+          "AlwaysExecute": false,
           "ContainerId": "a4673780-4abd-4ef4-81ab-54b009c60270",
           "AggregationMode": "Front/Rear",
           "Filter": {
@@ -866,15 +856,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 44,
             "UseHighFrequency": false,
             "HighFrequency": 50,
             "WhiteNoise": 10,
             "UseWhiteNoise": false,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 44,
             "OutputType": "ToneOutput"
           }
         },
@@ -912,6 +900,7 @@
           "RearRightFrequencyFormula": {
             "Expression": ""
           },
+          "AlwaysExecute": false,
           "ContainerId": "2d4ab968-79cf-4971-a85f-b21b09e198c1",
           "AggregationMode": "Front/Rear",
           "Filter": {
@@ -922,15 +911,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 44,
             "UseHighFrequency": false,
             "HighFrequency": 50,
             "WhiteNoise": 10,
             "UseWhiteNoise": false,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 44,
             "OutputType": "ToneOutput"
           }
         },
@@ -968,6 +955,7 @@
           "RearRightFrequencyFormula": {
             "Expression": ""
           },
+          "AlwaysExecute": false,
           "ContainerId": "8cc4e3d2-442d-40bd-b45d-fc0118931e91",
           "AggregationMode": "Front/Rear",
           "Filter": {
@@ -978,15 +966,13 @@
             "FilterType": "GammaFilter"
           },
           "Output": {
-            "UsePrehemptiveMode": false,
-            "Frequency": 44,
             "UseHighFrequency": false,
             "HighFrequency": 50,
             "WhiteNoise": 10,
             "UseWhiteNoise": false,
             "FrequencyBasedOnPreFilter": false,
-            "Harmonics": 0,
-            "HoldMode": 1,
+            "UsePrehemptiveMode": false,
+            "Frequency": 44,
             "OutputType": "ToneOutput"
           }
         }
@@ -1016,15 +1002,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 65,
         "UseHighFrequency": true,
         "HighFrequency": 70,
         "WhiteNoise": 2,
         "UseWhiteNoise": true,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 65,
         "OutputType": "ToneOutput"
       }
     },
@@ -1041,7 +1025,6 @@
       "Output": {
         "UsePrehemptiveMode": false,
         "Frequency": 43,
-        "Harmonics": 0,
         "OutputType": "SingleToneOutput"
       }
     },
@@ -1083,7 +1066,6 @@
       "Output": {
         "UsePrehemptiveMode": true,
         "Frequency": 32,
-        "Harmonics": 0,
         "OutputType": "SingleToneOutput"
       }
     },
@@ -1106,15 +1088,13 @@
         "FilterType": "SimpleGammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 24,
         "UseHighFrequency": false,
         "HighFrequency": 55,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 24,
         "OutputType": "ToneOutput"
       }
     },
@@ -1134,15 +1114,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 40,
         "UseHighFrequency": true,
         "HighFrequency": 20,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": true,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 40,
         "OutputType": "ToneOutput"
       }
     },
@@ -1164,15 +1142,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 38,
         "UseHighFrequency": true,
         "HighFrequency": 30,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": true,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 38,
         "OutputType": "ToneOutput"
       }
     },
@@ -1196,15 +1172,13 @@
         "FilterType": "SplineFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 42,
         "UseHighFrequency": true,
         "HighFrequency": 48,
         "WhiteNoise": 2,
         "UseWhiteNoise": true,
         "FrequencyBasedOnPreFilter": true,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 42,
         "OutputType": "ToneOutput"
       }
     },
@@ -1222,15 +1196,13 @@
         "FilterType": "SimpleGammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": false,
-        "Frequency": 42,
         "UseHighFrequency": true,
         "HighFrequency": 58,
         "WhiteNoise": 10,
         "UseWhiteNoise": false,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": false,
+        "Frequency": 42,
         "OutputType": "ToneOutput"
       }
     },
@@ -1247,7 +1219,6 @@
       "Output": {
         "UsePrehemptiveMode": false,
         "Frequency": 55,
-        "Harmonics": 0,
         "OutputType": "SingleToneOutput"
       }
     },
@@ -1270,15 +1241,13 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": true,
-        "Frequency": 50,
         "UseHighFrequency": true,
         "HighFrequency": 55,
         "WhiteNoise": 5,
         "UseWhiteNoise": true,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": true,
+        "Frequency": 50,
         "OutputType": "ToneOutput"
       }
     }

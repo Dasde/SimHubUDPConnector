@@ -11,25 +11,25 @@
       "FrontLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "FrontRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
         "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "ForceFrequencies": false,
@@ -45,25 +45,24 @@
       "RearRightFrequencyFormula": {
         "Expression": ""
       },
-      "ContainerId": "1f6c8718-bd9d-49e8-bb68-fb5f1b15b9b7",
+      "AlwaysExecute": true,
+      "ContainerId": "96c3fe6f-bafe-4ab2-ac09-5df4842fe334",
       "AggregationMode": "Corners",
       "Filter": {
-        "GammaValue": 1.2500000000000002,
+        "GammaValue": 1.25,
         "InputGain": 320.0,
         "MinimumForce": 0,
         "Threshold": 0,
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "UsePrehemptiveMode": true,
-        "Frequency": 26,
         "UseHighFrequency": false,
         "HighFrequency": 50,
         "WhiteNoise": 4,
         "UseWhiteNoise": true,
         "FrequencyBasedOnPreFilter": false,
-        "Harmonics": 0,
-        "HoldMode": 1,
+        "UsePrehemptiveMode": true,
+        "Frequency": 26,
         "OutputType": "ToneOutput"
       }
     }
