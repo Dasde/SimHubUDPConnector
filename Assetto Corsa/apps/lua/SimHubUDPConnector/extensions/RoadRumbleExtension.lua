@@ -11,8 +11,7 @@ end
 
 local carState = ac.getCar(0)
 local wheelsState = carState.wheels ---@type ac.StateWheel
-local carPhysics = ac.getCarPhysics(0)
--- local cspVersion = ac.getPatchVersion()
+local cspVersionCode = ac.getPatchVersionCode()
 
 ---Returns the surface name.
 ---@param surfaceId integer
@@ -40,7 +39,6 @@ local function getSurface(surfaceId)
         do return 'Unknown' end
     end
 end
--- end
 
 function RoadRumbleExtension:update(dt, customData)
     customData.WheelFLSurfaceVibrationGain = wheelsState[0].surfaceVibrationGain
@@ -59,14 +57,12 @@ function RoadRumbleExtension:update(dt, customData)
     customData.WheelRRSurfaceVibrationLength = wheelsState[3].surfaceVibrationLength
     customData.WheelRRAngularSpeed = wheelsState[3].angularSpeed
     customData.WheelRRRimRadius = wheelsState[3].rimRadius
-    if ac.getPatchVersionCode() >= 3334 then
-        -- if (cspVersion:versionCompare("0.2.7") > -1) then
+    if cspVersionCode >= 3334 then
         -- this part is required for the Road Rumble effect
         customData.WheelFLSurface = getSurface(wheelsState[0].surfaceExtendedType)
         customData.WheelFRSurface = getSurface(wheelsState[1].surfaceExtendedType)
         customData.WheelRLSurface = getSurface(wheelsState[2].surfaceExtendedType)
         customData.WheelRRSurface = getSurface(wheelsState[3].surfaceExtendedType)
-        -- end
     else
         customData.WheelSurfaceError = "Please upgrade your csp to version 0.2.7 min."
     end

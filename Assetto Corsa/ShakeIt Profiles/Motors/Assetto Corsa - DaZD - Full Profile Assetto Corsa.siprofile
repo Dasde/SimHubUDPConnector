@@ -7,30 +7,30 @@
       "ContainerType": "CustomEffectContainer",
       "IsEnabled": true,
       "Gain": 100.0,
-      "Description": "Collisions",
+      "Description": "Road Rumble",
       "FrontLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
-        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
+        "Expression": "return evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurface'), $prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));",
+        "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(surfaceProp, gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet surface = isnull(surfaceProp, 'Base');\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\tswitch (surface) {\r\n\t\tcase 'Base':\r\n\t\t\treturn 0;\r\n\t\tcase 'Grass':\r\n\t\tcase 'ExtraTurf':\r\n\t\t\treturn 30 * speedRatio;\r\n\t\tcase 'Gravel':\r\n\t\t\treturn 85 * speedRatio;\r\n\t\tcase 'Kerb':\r\n\t\t\treturn 100 * speedRatio;\r\n\t\tcase 'Old':\r\n\t\t\treturn 15 * speedRatio;\r\n\t\tcase 'Sand':\r\n\t\t\treturn 75 * speedRatio;\r\n\t\tcase 'Ice':\r\n\t\tcase 'Snow':\r\n\t\t\treturn 60 * speedRatio;\r\n\t\tdefault:\r\n\t\t\treturn 0;\r\n\t}\r\n}"
       },
       "FrontRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
-        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
+        "Expression": "return evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurface'), $prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));",
+        "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(surfaceProp, gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet surface = isnull(surfaceProp, 'Base');\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\tswitch (surface) {\r\n\t\tcase 'Base':\r\n\t\t\treturn 0;\r\n\t\tcase 'Grass':\r\n\t\tcase 'ExtraTurf':\r\n\t\t\treturn 30 * speedRatio;\r\n\t\tcase 'Gravel':\r\n\t\t\treturn 85 * speedRatio;\r\n\t\tcase 'Kerb':\r\n\t\t\treturn 100 * speedRatio;\r\n\t\tcase 'Old':\r\n\t\t\treturn 15 * speedRatio;\r\n\t\tcase 'Sand':\r\n\t\t\treturn 75 * speedRatio;\r\n\t\tcase 'Ice':\r\n\t\tcase 'Snow':\r\n\t\t\treturn 60 * speedRatio;\r\n\t\tdefault:\r\n\t\t\treturn 0;\r\n\t}\r\n}"
       },
       "RearLeftFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>-0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
-        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
+        "Expression": "\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurface'), $prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\n",
+        "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(surfaceProp, gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet surface = isnull(surfaceProp, 'Base');\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\tswitch (surface) {\r\n\t\tcase 'Base':\r\n\t\t\treturn 0;\r\n\t\tcase 'Grass':\r\n\t\tcase 'ExtraTurf':\r\n\t\t\treturn 30 * speedRatio;\r\n\t\tcase 'Gravel':\r\n\t\t\treturn 85 * speedRatio;\r\n\t\tcase 'Kerb':\r\n\t\t\treturn 100 * speedRatio;\r\n\t\tcase 'Old':\r\n\t\t\treturn 15 * speedRatio;\r\n\t\tcase 'Sand':\r\n\t\t\treturn 75 * speedRatio;\r\n\t\tcase 'Ice':\r\n\t\tcase 'Snow':\r\n\t\t\treturn 60 * speedRatio;\r\n\t\tdefault:\r\n\t\t\treturn 0;\r\n\t}\r\n}"
       },
       "RearRightFormula": {
         "JSExt": 0,
         "Interpreter": 1,
-        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<0.5) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
-        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
+        "Expression": "\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurface'), $prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\n",
+        "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(surfaceProp, gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet surface = isnull(surfaceProp, 'Base');\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\tswitch (surface) {\r\n\t\tcase 'Base':\r\n\t\t\treturn 0;\r\n\t\tcase 'Grass':\r\n\t\tcase 'ExtraTurf':\r\n\t\t\treturn 30 * speedRatio;\r\n\t\tcase 'Gravel':\r\n\t\t\treturn 85 * speedRatio;\r\n\t\tcase 'Kerb':\r\n\t\t\treturn 100 * speedRatio;\r\n\t\tcase 'Old':\r\n\t\t\treturn 15 * speedRatio;\r\n\t\tcase 'Sand':\r\n\t\t\treturn 75 * speedRatio;\r\n\t\tcase 'Ice':\r\n\t\tcase 'Snow':\r\n\t\t\treturn 60 * speedRatio;\r\n\t\tdefault:\r\n\t\t\treturn 0;\r\n\t}\r\n}"
       },
       "ForceFrequencies": false,
       "FrontLeftFrequencyFormula": {
@@ -45,7 +45,8 @@
       "RearRightFrequencyFormula": {
         "Expression": ""
       },
-      "ContainerId": "3f61d7e5-7efb-4e73-b09e-0beae8fa3d59",
+      "AlwaysExecute": false,
+      "ContainerId": "c0487ec6-5093-4582-8a01-2148c2dba55c",
       "AggregationMode": "Corners",
       "Filter": {
         "GammaValue": 1.0,
@@ -55,543 +56,39 @@
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "OutputType": "VibrationOutput"
-      }
-    },
-    {
-      "ContainerType": "GroupContainer",
-      "IsEnabled": true,
-      "Gain": 51.575757575757052,
-      "Description": "Road Rumble",
-      "EffectsContainers": [
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 44.727272727272748,
-          "Description": "Road Rumble on Grass",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Grass')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Grass')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Grass')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Grass')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "7ec91635-5a94-4c28-a242-be5bb87bb6a5",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 29.696969696969518,
-          "Description": "Road Rumble on ExtraTurf",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'ExtraTurf')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'ExtraTurf')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'ExtraTurf')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'ExtraTurf')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "3dcbb8f3-cbad-4c90-8c08-bad3503a40d9",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 85.4545454545455,
-          "Description": "Road Rumble on Gravel",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Gravel')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Gravel')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Gravel')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Gravel')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "df7c2d5f-8169-46a4-8d06-5c117ce473aa",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 100.0,
-          "Description": "Road Rumble on Kerb",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Kerb')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Kerb')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Kerb')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Kerb')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "1261e52d-10b9-48ef-b9a1-b287441ef5fb",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 14.66666666666606,
-          "Description": "Road Rumble on Old",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Old')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Old')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Old')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Old')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "df145dfc-87c2-462c-9412-e3f90b3a6a7e",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 74.787878787878526,
-          "Description": "Road Rumble on Sand",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Sand')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Sand')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Sand')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Sand')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "1efea112-6bc2-46d8-bf82-d9b95d3e914a",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 69.939393939394,
-          "Description": "Road Rumble on Ice",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Ice')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Ice')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Ice')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Ice')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "0e3f5bc9-a255-4561-bdc6-af5e4f43b9db",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 60.242424242424249,
-          "Description": "Road Rumble on Snow",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFLSurface') == 'Snow')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "FrontRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelFRSurface') == 'Snow')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelFRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "if ($prop('UDPConnectorDataPlugin.WheelRLSurface') == 'Snow')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRLSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "RearRightFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "\r\nif ($prop('UDPConnectorDataPlugin.WheelRRSurface') == 'Snow')\r\nreturn evaluateGain($prop('UDPConnectorDataPlugin.WheelRRSurfaceVibrationGain'));\r\nreturn 0;",
-            "PreExpression": "function mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n\treturn Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}\r\n\r\nfunction evaluateGain(gainProp) {\r\n\tlet speedKMH = isnull($prop('SpeedKmh'),0); \r\n\tif ( speedKMH < 3) return 0;\r\n\tlet vibrationGain = isnull(gainProp, 0);\r\n\tlet speedRatio = mapRange($prop('SpeedKmh'), 3, 50, 0, 1);\r\n\tif (vibrationGain > 0) return Math.min(100, 5 * vibrationGain * speedRatio * 100);\r\n\treturn 100 * speedRatio;\r\n}"
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "ba97aa5a-74e4-42ce-ac35-124c3920a254",
-          "AggregationMode": "Corners",
-          "Filter": {
-            "GammaValue": 1.3,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 0,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        }
-      ],
-      "ContainerId": "86b21a5c-7009-422d-b870-50f4fd51d1f7",
-      "Filter": null,
-      "Output": null
-    },
-    {
-      "ContainerType": "CustomEffectContainer",
-      "IsEnabled": true,
-      "Gain": 58.666666666666288,
-      "Description": "Rangey 4 Wheel tyre slip x surge brakes only",
-      "FrontLeftFormula": {
-        "JSExt": 1,
-        "Interpreter": 1,
-        "Expression": "//Tyre Slip\r\nvar fl = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelFLRimRadius'), $prop('UDPConnectorDataPlugin.WheelFLAngularSpeed'));\r\n//Sway Acceleration\r\n\r\nvar sway = Math.pow ($prop('AccelerationSway'),2)\r\n//surge Acceleration\r\nvar surge = Math.pow ($prop('AccelerationSurge'),2)\r\nvar limited = fl * surge;\r\nif (($prop('Brake')) > 10 || $prop('UDPConnectorDataPlugin.Handbrake')>0.1) {\r\nreturn Math.min(Math.max(parseInt(limited), 0), 100);\r\n}\r\nreturn 0",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (speedMS - groundSpeedMS) / Math.max(groundSpeedMS, speedMS);\r\n}"
-      },
-      "FrontRightFormula": {
-        "JSExt": 1,
-        "Interpreter": 1,
-        "Expression": "//Tyre Slip\r\nvar fr = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelFRRimRadius'), $prop('UDPConnectorDataPlugin.WheelFRAngularSpeed'));\r\n//Sway Acceleration\r\nvar sway = Math.pow ($prop('AccelerationSway'),2)\r\n//surge Acceleration\r\nvar surge = Math.pow ($prop('AccelerationSurge'),2)\r\nvar limited = fr * surge\r\nif (($prop('Brake')) > 10  || $prop('UDPConnectorDataPlugin.Handbrake')>0.1) {\r\nreturn Math.min(Math.max(parseInt(limited), 0), 100);\r\n}\r\nreturn 0",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (speedMS - groundSpeedMS) / Math.max(groundSpeedMS, speedMS);\r\n}"
-      },
-      "RearLeftFormula": {
-        "JSExt": 1,
-        "Interpreter": 1,
-        "Expression": "//Tyre Slip\r\nvar rl = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelRLRimRadius'), $prop('UDPConnectorDataPlugin.WheelRLAngularSpeed'));\r\n//Sway Acceleration\r\nvar sway = Math.pow ($prop('AccelerationSway'),2)\r\n//surge Acceleration\r\nvar surge = Math.pow ($prop('AccelerationSurge'),2)\r\nvar limited = rl * surge\r\nif (($prop('Brake')) > 10  || $prop('UDPConnectorDataPlugin.Handbrake')>0.1)  {\r\nreturn Math.min(Math.max(parseInt(limited), 0), 100);\r\n}\r\nreturn 0\r\n ",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (speedMS - groundSpeedMS) / Math.max(groundSpeedMS, speedMS);\r\n}"
-      },
-      "RearRightFormula": {
-        "JSExt": 1,
-        "Interpreter": 1,
-        "Expression": "//Tyre Slip\r\nvar rr = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelRRRimRadius'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'));\r\n//Sway Acceleration\r\nvar sway = Math.pow ($prop('AccelerationSway'),2)\r\n//surge Acceleration\r\nvar surge = Math.pow ($prop('AccelerationSurge'),2)\r\nvar limited = rr * surge\r\nif (($prop('Brake')) > 10  || $prop('UDPConnectorDataPlugin.Handbrake')>0.1) {\r\nreturn Math.min(Math.max(parseInt(limited), 0), 100);\r\n}\r\nreturn 0",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (speedMS - groundSpeedMS) / Math.max(groundSpeedMS, speedMS);\r\n}"
-      },
-      "ForceFrequencies": true,
-      "FrontLeftFrequencyFormula": {
-        "JSExt": 0,
-        "Interpreter": 1,
-        "Expression": "var flrps = revolutionPerSecond($prop('UDPConnectorDataPlugin.WheelFLAngularSpeed'));\r\n// Lockup percentage (0.0 to 1.0)\r\nvar lockup = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelFLRimRadius'), $prop('UDPConnectorDataPlugin.WheelFLAngularSpeed'));\r\n\r\n// Additional rising frequency element (only applies if lockup > 0.75)\r\nvar risingFrequency = 0;\r\nif (lockup > 0.75) {\r\n    // Scale the rising element from 0 to a max value (e.g., 40) as lockup moves from 0.75 to 1.0\r\n    risingFrequency = (lockup - 0.75) / 0.25 * 40; // Adjust \"40\" to control the maximum added frequency\r\n}\r\n\r\n// Final frequency calculation\r\nvar frequency = ((flrps+30) + risingFrequency)*-1;\r\nvar frequency = Math.max(frequency, 30);\r\n\r\n// Return the resulting frequency\r\nreturn frequency;\r\n",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (groundSpeedMS - speedMS) / Math.max(groundSpeedMS, speedMS);\r\n}\r\n\r\nfunction revolutionPerSecond(angularSpeed) {\r\n    return angularSpeed/6.28;\r\n}"
-      },
-      "FrontRightFrequencyFormula": {
-        "JSExt": 0,
-        "Interpreter": 1,
-        "Expression": "var frrps = revolutionPerSecond($prop('UDPConnectorDataPlugin.WheelFRAngularSpeed'));\r\n// Lockup percentage (0.0 to 1.0)\r\nvar lockup = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelFRRimRadius'), $prop('UDPConnectorDataPlugin.WheelFRAngularSpeed'));\r\n\r\n// Additional rising frequency element (only applies if lockup > 0.75)\r\nvar risingFrequency = 0;\r\nif (lockup > 0.75) {\r\n    // Scale the rising element from 0 to a max value (e.g., 40) as lockup moves from 0.75 to 1.0\r\n    risingFrequency = (lockup - 0.75) / 0.25 * 40; // Adjust \"40\" to control the maximum added frequency\r\n}\r\n\r\n// Final frequency calculation\r\nvar frequency = ((frrps+30) + risingFrequency)*-1;\r\nvar frequency = Math.max(frequency, 30);\r\n\r\n// Return the resulting frequency\r\nreturn frequency;",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (groundSpeedMS - speedMS) / Math.max(groundSpeedMS, speedMS);\r\n}\r\n\r\nfunction revolutionPerSecond(angularSpeed) {\r\n    return angularSpeed/6.28;\r\n}"
-      },
-      "RearLeftFrequencyFormula": {
-        "JSExt": 0,
-        "Interpreter": 1,
-        "Expression": "var rlrps = revolutionPerSecond($prop('UDPConnectorDataPlugin.WheelRLAngularSpeed'));\r\n// Lockup percentage (0.0 to 1.0)\r\nvar lockup = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelRLRimRadius'), $prop('UDPConnectorDataPlugin.WheelRLAngularSpeed'));\r\n\r\n// Additional rising frequency element (only applies if lockup > 0.75)\r\nvar risingFrequency = 0;\r\nif (lockup > 0.75) {\r\n    // Scale the rising element from 0 to a max value (e.g., 40) as lockup moves from 0.75 to 1.0\r\n    risingFrequency = (lockup - 0.75) / 0.25 * 40; // Adjust \"40\" to control the maximum added frequency\r\n}\r\n\r\n// Final frequency calculation\r\nvar frequency = ((rlrps+30) + risingFrequency)*-1;\r\nvar frequency = Math.max(frequency, 30);\r\n\r\n// Return the resulting frequency\r\nreturn frequency;\r\n",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (groundSpeedMS - speedMS) / Math.max(groundSpeedMS, speedMS);\r\n}\r\n\r\nfunction revolutionPerSecond(angularSpeed) {\r\n    return angularSpeed/6.28;\r\n}"
-      },
-      "RearRightFrequencyFormula": {
-        "JSExt": 0,
-        "Interpreter": 1,
-        "Expression": "var rrrps = revolutionPerSecond($prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'));\r\n// Lockup percentage (0.0 to 1.0)\r\nvar lockup = longitudinalWheelSlipPercent($prop('UDPConnectorDataPlugin.WheelRRRimRadius'), $prop('UDPConnectorDataPlugin.WheelRRAngularSpeed'));\r\n\r\n// Additional rising frequency element (only applies if lockup > 0.75)\r\nvar risingFrequency = 0;\r\nif (lockup > 0.75) {\r\n    // Scale the rising element from 0 to a max value (e.g., 40) as lockup moves from 0.75 to 1.0\r\n    risingFrequency = (lockup - 0.75) / 0.25 * 40; // Adjust \"40\" to control the maximum added frequency\r\n}\r\n\r\n// Final frequency calculation\r\nvar frequency = ((rrrps+30) + risingFrequency)*-1;\r\nvar frequency = Math.max(frequency, 30);\r\n\r\n// Return the resulting frequency\r\nreturn frequency;",
-        "PreExpression": "function longitudinalWheelSlipPercent(radius, angularSpeed) {\r\n    let speedKMH = $prop('MaxSpeedKmh');\r\n    let speedMS = speedKMH * (5/18);\r\n    let groundSpeedMS = radius * angularSpeed;\r\n    return (groundSpeedMS - speedMS) / Math.max(groundSpeedMS, speedMS);\r\n}\r\n\r\nfunction revolutionPerSecond(angularSpeed) {\r\n    return angularSpeed/6.28;\r\n}"
-      },
-      "ContainerId": "0b65364f-701c-451d-89dc-6764f75fb9c6",
-      "AggregationMode": "Corners",
-      "Filter": {
-        "GammaValue": 1.0,
-        "InputGain": 100.0,
-        "MinimumForce": 0,
-        "Threshold": 5,
-        "FilterType": "GammaFilter"
-      },
-      "Output": {
+        "PropertyName": "test",
+        "ExportProperty": true,
         "OutputType": "VibrationOutput"
       }
     },
     {
       "ContainerType": "CustomEffectContainer",
       "IsEnabled": true,
-      "Gain": 88.0,
-      "Description": "Simulate Stall / Engine start",
+      "Gain": 100.0,
+      "Description": "Collisions",
       "FrontLeftFormula": {
-        "Expression": "if(changed(100, [EngineStarted]), 100,0)"
+        "JSExt": 0,
+        "Interpreter": 1,
+        "Expression": "if( \r\n\t(getCollidedWith(150) != 'None') && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n\t(isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "FrontRightFormula": {
-        "Expression": ""
+        "JSExt": 0,
+        "Interpreter": 1,
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)>=-0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearLeftFormula": {
-        "Expression": "if(changed(100, [EngineStarted]), 100,0)"
+        "JSExt": 0,
+        "Interpreter": 1,
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)>=-0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "RearRightFormula": {
-        "Expression": ""
+        "JSExt": 0,
+        "Interpreter": 1,
+        "Expression": "if( \r\n    (getCollidedWith(150) != 'None') && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionX'),0)<=0.2) && \r\n    (isnull($prop('UDPConnectorDataPlugin.CollisionPositionZ'),0)<=0.5) \r\n)\r\n    return startVibrating( 100, 250, true);\r\nreturn stopVibrating();",
+        "PreExpression": "let collidedWith = 'None';\r\n//const TEMPO = 1000;\r\nlet nextUpdate = 0;\r\nlet vibrationStopTime = 0;\r\nlet currentIntensity = 0;\r\nfunction startVibrating(intensity, duration, useSpeedRatio) {\r\n    vibrationStopTime = Date.now() + duration;\r\n    if (useSpeedRatio)\r\n        currentIntensity = intensity * getSpeedRatio();\r\n    else currentIntensity = intensity;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction stopVibrating() {\r\n    if (vibrationStopTime <= Date.now())\r\n        currentIntensity = 0;\r\n    return currentIntensity;\r\n}\r\n\r\nfunction updateCollidedWith(tempo) {\r\n    let currentCollidedWith = isnull($prop('UDPConnectorDataPlugin.CollidedWith'), 'None');\r\n    if (currentCollidedWith != 'None') {\r\n        collidedWith = currentCollidedWith;\r\n        nextUpdate = Date.now() + tempo;//TEMPO;\r\n    } else {\r\n        if (nextUpdate <= Date.now())\r\n            collidedWith = 'None';\r\n    }\r\n}\r\n\r\nfunction getCollidedWith(tempo) {\r\n    updateCollidedWith(tempo);\r\n    return collidedWith;\r\n}\r\n\r\nfunction getSpeedRatio() {\r\n    let speedPlayer = $prop('SpeedKmh');\r\n    let speedCollider = $prop('UDPConnectorDataPlugin.ColliderSpeed');\r\n    let speed = Math.max(speedCollider, speedPlayer);\r\n    if (speed < 1) return 0;\r\n    return mapRange(speed, 1, 50, 0.5, 1);\r\n}\r\n\r\nfunction mapRange(value, oldMin, oldMax, newMin, newMax) {\r\n    return Math.max(Math.min(((value - oldMin) * (newMax - newMin) / (oldMax - oldMin)) + newMin, newMax), newMin);\r\n}"
       },
       "ForceFrequencies": false,
       "FrontLeftFrequencyFormula": {
@@ -606,7 +103,156 @@
       "RearRightFrequencyFormula": {
         "Expression": ""
       },
-      "ContainerId": "c6333acf-75b7-4637-8f73-5328344169e8",
+      "AlwaysExecute": true,
+      "ContainerId": "eb30139b-7da2-42c7-8db2-380313639766",
+      "AggregationMode": "Corners",
+      "Filter": {
+        "GammaValue": 1.0,
+        "InputGain": 100.0,
+        "MinimumForce": 0,
+        "Threshold": 0,
+        "FilterType": "GammaFilter"
+      },
+      "Output": {
+        "PropertyName": "Terst",
+        "ExportProperty": true,
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "ABSActiveEffectContainer",
+      "IsEnabled": true,
+      "Gain": 64.6800000000004,
+      "Description": "Provides feedback when ABS is currently active",
+      "ContainerId": "36c2722b-8831-4879-8e4c-e3ffde9404af",
+      "Filter": {
+        "Duration": 85,
+        "FilterType": "PulseFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "AccelerationGforceContainer",
+      "IsEnabled": false,
+      "Gain": 75.0666666666666,
+      "Description": "Provide longitudinal acceleration feedback based on G-Force",
+      "LowForce": 2,
+      "HighForce": 6,
+      "MaxGPercent": 80.0,
+      "AutoMaxG": true,
+      "ContainerId": "7e8ec93d-036f-41e9-8e2b-876fb3ec9dfd",
+      "Filter": {
+        "GammaValue": 1.0,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "DecelerationGforceContainer",
+      "IsEnabled": false,
+      "Gain": 67.866666666666788,
+      "Description": "Provide deceleration feedback based on G-Force",
+      "LowForce": 4,
+      "HighForce": 12,
+      "MaxGPercent": 90.0,
+      "AutoMaxG": true,
+      "ContainerId": "ffc0eb24-3066-4dcc-ae19-7d331dd4385c",
+      "Filter": {
+        "GammaValue": 1.0,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "RPMSoundEffectContainer",
+      "IsEnabled": true,
+      "Gain": 23.559999999999633,
+      "Description": "Simulates engine vibration",
+      "PitchOffset": 0,
+      "CutOff": 180.0,
+      "LoadSensitivity": 50.0,
+      "ContainerId": "3a0e5b96-3053-4091-b1e9-30b22963b628",
+      "Filter": null,
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "GearEffectContainer",
+      "IsEnabled": true,
+      "Gain": 100.0,
+      "Description": "Provides a pulse effect for gear shifting",
+      "ModulateGainUsingRpms": false,
+      "MaxFeedbackRpmPercent": 90,
+      "MinFeedbackRpmPercent": 50,
+      "GearMode": 2,
+      "AlwaysIgnoreNeutral": false,
+      "IgnoreNeutral": true,
+      "NeutralDebouningTime": 200.0,
+      "EngagingDebouningTime": 1000.0,
+      "ContainerId": "f078120f-926f-48fb-a25e-de61c3ade220",
+      "Filter": {
+        "Duration": 68,
+        "FilterType": "PulseFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "LateralGforceContainer",
+      "IsEnabled": false,
+      "Gain": 46.0,
+      "Description": "Provide lateral acceleration feedback based on G-Force",
+      "LowForce": 1,
+      "HighForce": 20,
+      "MaxGPercent": 100.0,
+      "AutoMaxG": false,
+      "ContainerId": "9feae1db-f1ce-4a0e-8530-216a0aa63b97",
+      "AggregationMode": "Left/Right",
+      "Filter": {
+        "GammaValue": 1.0,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "GearMissedContainer",
+      "IsEnabled": true,
+      "Gain": 79.800000000000182,
+      "Description": "Provides feedback for missed gears (manual cars only, based on H-Pattern controller)",
+      "Gear1": {},
+      "Gear2": {},
+      "Gear3": {},
+      "Gear4": {},
+      "Gear5": {},
+      "Gear6": {},
+      "Gear7": {},
+      "GearR": {},
+      "ContainerId": "676e5965-b7ca-42a3-84a8-547e1e8e1931",
+      "Filter": {
+        "GammaValue": 1.2,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "WheelsImpactContainer",
+      "IsEnabled": true,
+      "Gain": 100.0,
+      "Description": "Provides localized feedback for bumps and other wheels impact on road",
+      "AutocalibrationMin": 38.0,
+      "ContainerId": "b96bb736-b624-41ba-9f62-5736891fd0aa",
       "AggregationMode": "Front/Rear",
       "Filter": {
         "GammaValue": 1.0,
@@ -620,185 +266,17 @@
       }
     },
     {
-      "ContainerType": "GroupContainer",
-      "IsEnabled": true,
-      "Gain": 40.363636363636488,
-      "Description": "Rangey Rover : Slip, Under & Over Steer",
-      "EffectsContainers": [
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 90.0,
-          "Description": "Front Slip",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "var degreeRad = Math.PI/180; // 360 degrees to radians, which is 2π radians\r\n\r\n// Angular velocities in radians per second\r\nvar angle2 = NewRawData().Physics.LocalAngularVelocity[2];; // [ UNITS = Radians per-second ] (yaw rate)\r\n\r\n\r\n// Normalized steering input\r\nvar steeringInput = $prop('GameRawData.mSteering'); // [ RANGE = -1.0f->1.0f ]\r\nvar steeringAngleDeg = steeringInput * 24; //Typical steering angle 24 degrees, match to what is set in game\r\n\r\n// Convert normalized steering input to actual steering angle in radians\r\nvar steeringAngleRad = steeringAngleDeg * degreeRad;\r\n\r\n// Local velocities in metres per second\r\nvar local1 = NewRawData().Physics.LocalVelocity[0]; // [ UNITS = Metres per-second ] (Lateral velocity)\r\nvar local3 = NewRawData().Physics.LocalVelocity[2]; // [ UNITS = Metres per-second ] (Longitudinal velocity)\r\n\r\n// Assumed distances to front and rear axles in meters not available in game\r\nvar L_f = 1.2; // Distance to front axle [ UNITS = Metres ]\r\nvar L_r = 1.6; // Distance to rear axle [ UNITS = Metres ] \r\n// Extract yaw rate, lateral and longitudinal velocities\r\nvar yaw_rate = angle2; // Yaw rate in rad/s\r\nvar v_y = local1; // Lateral velocity in m/s\r\nvar v_x = local3; // Longitudinal velocity in m/s\r\n\r\n\r\n// Calculate front slip angle in radians from simplified equation\r\nvar alpha_f = steeringAngleRad - Math.atan((v_y + L_f * yaw_rate) / v_x);\r\n\r\n// Calculate rear slip angle in radians from simplified equation\r\nvar alpha_r = -Math.atan((v_y - L_r * yaw_rate) / v_x);\r\n\r\n// Convert slip angles from radians to degrees\r\nvar alpha_f_deg = alpha_f * (180 / Math.PI);\r\nvar alpha_r_deg = alpha_r * (180 / Math.PI);\r\n\r\n//Output slip x 2\r\nreturn Math.abs(alpha_f_deg *2);"
-          },
-          "FrontRightFormula": {
-            "Expression": ""
-          },
-          "RearLeftFormula": {
-            "Expression": ""
-          },
-          "RearRightFormula": {
-            "Expression": ""
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "a4673780-4abd-4ef4-81ab-54b009c60270",
-          "AggregationMode": "Front/Rear",
-          "Filter": {
-            "GammaValue": 1.0,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 5,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 90.0,
-          "Description": "Rangey Under & Over Steer",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "var degreeRad = Math.PI/180; // 360 degrees to radians, which is 2π radians\r\n\r\n// Angular velocities in radians per second\r\nvar angle2 = NewRawData().Physics.LocalAngularVelocity[2];; // [ UNITS = Radians per-second ] (yaw rate)\r\n\r\n\r\n// Normalized steering input\r\nvar steeringInput = $prop('GameRawData.mSteering'); // [ RANGE = -1.0f->1.0f ]\r\nvar steeringAngleDeg = steeringInput * 24; //Typical steering angle 24 degrees, match to what is set in game\r\n\r\n// Convert normalized steering input to actual steering angle in radians\r\nvar steeringAngleRad = steeringAngleDeg * degreeRad;\r\n\r\n// Local velocities in metres per second\r\nvar local1 = NewRawData().Physics.LocalVelocity[0]; // [ UNITS = Metres per-second ] (Lateral velocity)\r\nvar local3 = NewRawData().Physics.LocalVelocity[2]; // [ UNITS = Metres per-second ] (Longitudinal velocity)\r\n\r\n// Assumed distances to front and rear axles in meters not available in game\r\nvar L_f = 1.2; // Distance to front axle [ UNITS = Metres ]\r\nvar L_r = 1.6; // Distance to rear axle [ UNITS = Metres ] \r\n// Extract yaw rate, lateral and longitudinal velocities\r\nvar yaw_rate = angle2; // Yaw rate in rad/s\r\nvar v_y = local1; // Lateral velocity in m/s\r\nvar v_x = local3; // Longitudinal velocity in m/s\r\n\r\n\r\n// Calculate front slip angle in radians from simplified equation\r\nvar alpha_f = steeringAngleRad - Math.atan((v_y + L_f * yaw_rate) / v_x);\r\n\r\n// Calculate rear slip angle in radians from simplified equation\r\nvar alpha_r = -Math.atan((v_y - L_r * yaw_rate) / v_x);\r\n\r\n// Convert slip angles from radians to degrees\r\nvar alpha_f_deg = alpha_f * (180 / Math.PI);\r\nvar alpha_r_deg = alpha_r * (180 / Math.PI);\r\n\r\n//Output understeer in degrees\r\nvar under = Math.abs(alpha_f_deg) - Math.abs(alpha_r_deg); //understeer\r\nif(under<=0){\r\nunder = 0;\r\n}\r\n\r\nreturn Math.abs(under) * 10;"
-          },
-          "FrontRightFormula": {
-            "Expression": ""
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "var degreeRad = Math.PI/180; // 360 degrees to radians, which is 2π radians\r\n\r\n// Angular velocities in radians per second\r\nvar angle2 = NewRawData().Physics.LocalAngularVelocity[2];; // [ UNITS = Radians per-second ] (yaw rate)\r\n\r\n\r\n// Normalized steering input\r\nvar steeringInput = $prop('GameRawData.mSteering'); // [ RANGE = -1.0f->1.0f ]\r\nvar steeringAngleDeg = steeringInput * 24; //Typical steering angle 24 degrees, match to what is set in game\r\n\r\n// Convert normalized steering input to actual steering angle in radians\r\nvar steeringAngleRad = steeringAngleDeg * degreeRad;\r\n\r\n// Local velocities in metres per second\r\nvar local1 = NewRawData().Physics.LocalVelocity[0]; // [ UNITS = Metres per-second ] (Lateral velocity)\r\nvar local3 = NewRawData().Physics.LocalVelocity[2]; // [ UNITS = Metres per-second ] (Longitudinal velocity)\r\n\r\n// Assumed distances to front and rear axles in meters not available in game\r\nvar L_f = 1.2; // Distance to front axle [ UNITS = Metres ]\r\nvar L_r = 1.6; // Distance to rear axle [ UNITS = Metres ] \r\n// Extract yaw rate, lateral and longitudinal velocities\r\nvar yaw_rate = angle2; // Yaw rate in rad/s\r\nvar v_y = local1; // Lateral velocity in m/s\r\nvar v_x = local3; // Longitudinal velocity in m/s\r\n\r\n\r\n// Calculate front slip angle in radians from simplified equation\r\nvar alpha_f = steeringAngleRad - Math.atan((v_y + L_f * yaw_rate) / v_x);\r\n\r\n// Calculate rear slip angle in radians from simplified equation\r\nvar alpha_r = -Math.atan((v_y - L_r * yaw_rate) / v_x);\r\n\r\n// Convert slip angles from radians to degrees\r\nvar alpha_f_deg = alpha_f * (180 / Math.PI);\r\nvar alpha_r_deg = alpha_r * (180 / Math.PI);\r\n\r\n//Output Oversteer in degrees\r\nvar over =  Math.abs(alpha_r_deg) - Math.abs(alpha_f_deg); //Oversteer\r\nif(over<=0){\r\nover = 0;\r\n}\r\n\r\nreturn Math.abs(over) * 10;"
-          },
-          "RearRightFormula": {
-            "Expression": ""
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "2d4ab968-79cf-4971-a85f-b21b09e198c1",
-          "AggregationMode": "Front/Rear",
-          "Filter": {
-            "GammaValue": 0.74999999999999978,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 5,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        },
-        {
-          "ContainerType": "CustomEffectContainer",
-          "IsEnabled": true,
-          "Gain": 90.0,
-          "Description": "Rear Slip",
-          "FrontLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": ""
-          },
-          "FrontRightFormula": {
-            "Expression": ""
-          },
-          "RearLeftFormula": {
-            "JSExt": 0,
-            "Interpreter": 1,
-            "Expression": "var degreeRad = Math.PI/180; // 360 degrees to radians, which is 2π radians\r\n\r\n// Angular velocities in radians per second\r\nvar angle2 = NewRawData().Physics.LocalAngularVelocity[2];; // [ UNITS = Radians per-second ] (yaw rate)\r\n\r\n\r\n// Normalized steering input\r\nvar steeringInput = $prop('GameRawData.mSteering'); // [ RANGE = -1.0f->1.0f ]\r\nvar steeringAngleDeg = steeringInput * 24; //Typical steering angle 24 degrees, match to what is set in game\r\n\r\n// Convert normalized steering input to actual steering angle in radians\r\nvar steeringAngleRad = steeringAngleDeg * degreeRad;\r\n\r\n// Local velocities in metres per second\r\nvar local1 = NewRawData().Physics.LocalVelocity[0]; // [ UNITS = Metres per-second ] (Lateral velocity)\r\nvar local3 = NewRawData().Physics.LocalVelocity[2]; // [ UNITS = Metres per-second ] (Longitudinal velocity)\r\n\r\n// Assumed distances to front and rear axles in meters not available in game\r\nvar L_f = 1.2; // Distance to front axle [ UNITS = Metres ]\r\nvar L_r = 1.6; // Distance to rear axle [ UNITS = Metres ] \r\n// Extract yaw rate, lateral and longitudinal velocities\r\nvar yaw_rate = angle2; // Yaw rate in rad/s\r\nvar v_y = local1; // Lateral velocity in m/s\r\nvar v_x = local3; // Longitudinal velocity in m/s\r\n\r\n\r\n// Calculate front slip angle in radians from simplified equation\r\nvar alpha_f = steeringAngleRad - Math.atan((v_y + L_f * yaw_rate) / v_x);\r\n\r\n// Calculate rear slip angle in radians from simplified equation\r\nvar alpha_r = -Math.atan((v_y - L_r * yaw_rate) / v_x);\r\n\r\n// Convert slip angles from radians to degrees\r\nvar alpha_f_deg = alpha_f * (180 / Math.PI);\r\nvar alpha_r_deg = alpha_r * (180 / Math.PI);\r\n\r\n//Output slip x 2\r\nreturn Math.abs(alpha_r_deg *2);"
-          },
-          "RearRightFormula": {
-            "Expression": ""
-          },
-          "ForceFrequencies": false,
-          "FrontLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "FrontRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearLeftFrequencyFormula": {
-            "Expression": ""
-          },
-          "RearRightFrequencyFormula": {
-            "Expression": ""
-          },
-          "ContainerId": "8cc4e3d2-442d-40bd-b45d-fc0118931e91",
-          "AggregationMode": "Front/Rear",
-          "Filter": {
-            "GammaValue": 1.0,
-            "InputGain": 100.0,
-            "MinimumForce": 0,
-            "Threshold": 5,
-            "FilterType": "GammaFilter"
-          },
-          "Output": {
-            "OutputType": "VibrationOutput"
-          }
-        }
-      ],
-      "ContainerId": "bb127690-ffa4-4ca0-8702-6d785273e7cc",
-      "Filter": null,
-      "Output": null
-    },
-    {
-      "ContainerType": "GearEffectContainer",
-      "IsEnabled": true,
-      "Gain": 98.0,
-      "Description": "Provides a pulse effect for gear shifting",
-      "ModulateGainUsingRpms": false,
-      "MaxFeedbackRpmPercent": 90,
-      "MinFeedbackRpmPercent": 50,
-      "GearMode": 2,
-      "AlwaysIgnoreNeutral": false,
-      "IgnoreNeutral": true,
-      "NeutralDebouningTime": 200.0,
-      "EngagingDebouningTime": 1000.0,
-      "ContainerId": "42f753ab-a20f-4bf9-a97c-1b6b6d6b0dd7",
-      "Filter": {
-        "Duration": 80,
-        "FilterType": "PulseFilter"
-      },
-      "Output": {
-        "OutputType": "VibrationOutput"
-      }
-    },
-    {
-      "ContainerType": "WheelsImpactContainer",
-      "IsEnabled": true,
-      "Gain": 45.666666666666288,
-      "Description": "Provides localized feedback for bumps and other wheels impact on road",
-      "AutocalibrationMin": 50.0,
-      "ContainerId": "88bcfd51-2aad-43b1-b379-f1923100b78e",
-      "AggregationMode": "Corners",
+      "ContainerType": "WheelsRumbleContainer",
+      "IsEnabled": false,
+      "Gain": 100.0,
+      "Description": "Provides localized rumble for kerbs, grass ...",
+      "MaxEffectSpeed": 80.0,
+      "RampDownDelay": 1000.0,
+      "RampDownTo": 25.0,
+      "UseVibrationRampDown": false,
+      "Localization": 100.0,
+      "ContainerId": "dc1c6665-b664-44ec-91f3-abd2709e2ac8",
+      "AggregationMode": "Front/Rear",
       "Filter": {
         "GammaValue": 1.0,
         "InputGain": 100.0,
@@ -811,31 +289,22 @@
       }
     },
     {
-      "ContainerType": "WheelsSpinAndLockContainer",
+      "ContainerType": "WheelsVibrationContainer",
       "IsEnabled": true,
-      "Gain": 39.818181818182211,
-      "ContainerId": "3fb814da-8bef-4056-9e8c-91896f472bfc",
+      "Gain": 75.272727272727252,
+      "Description": "Provides localized road vibration based on suspension telemetry",
+      "AutocalibrationMax": 100.0,
+      "UseAutoThreshold": true,
+      "AutoThresholdValue": 56.0,
+      "ContainerId": "123ce72b-5930-47f5-95d7-80eb995c1cdb",
+      "AggregationMode": "Front/Rear",
       "Filter": {
         "GammaValue": 1.0,
         "InputGain": 100.0,
         "MinimumForce": 0,
-        "Threshold": 0,
+        "Threshold": 15,
         "FilterType": "GammaFilter"
       },
-      "Output": {
-        "OutputType": "VibrationOutput"
-      }
-    },
-    {
-      "ContainerType": "RPMSoundEffectContainer",
-      "IsEnabled": true,
-      "Gain": 22.559999999999633,
-      "Description": "Simulates engine vibration",
-      "PitchOffset": 0,
-      "CutOff": 180.0,
-      "LoadSensitivity": 50.0,
-      "ContainerId": "0a2a8a67-0290-43b9-ac1f-84db05da8b5a",
-      "Filter": null,
       "Output": {
         "OutputType": "VibrationOutput"
       }
@@ -843,14 +312,18 @@
     {
       "ContainerType": "RPMContainer",
       "IsEnabled": true,
-      "Gain": 10.757575757575296,
+      "Gain": 17.640000000000271,
       "Description": "Simulates engine RPMS with a full customizable RPM/response curve",
-      "ContainerId": "557afdaf-7406-4ffb-9603-d240e8dbee89",
+      "ContainerId": "9b503b23-6867-4f9e-8922-adb9e46a5a43",
       "Filter": {
         "ControlPoints": [
-          "43.3996038091601;55.7563764747296",
-          "53.4237093964056;53.1224407390343",
-          "98.1025800138428;100"
+          "6.03245460577909;90.9698437606604",
+          "22.4407311334982;51.3961247185645",
+          "44.1575677143029;39.3620113256464",
+          "92.1276467394583;54.8675035819062",
+          "100;69.4472948079416",
+          "83.9235084755988;46.7676195674422",
+          "66.2604813898776;39.1305860680903"
         ],
         "CurveFitting": 0,
         "FilterType": "SplineFilter"
@@ -860,16 +333,68 @@
       }
     },
     {
-      "ContainerType": "WheelsLockContainer",
+      "ContainerType": "RoadTextureContainer",
+      "IsEnabled": true,
+      "Gain": 35.75999999999982,
+      "Description": "Simulate the road texture based on speed",
+      "Grain": 50.0,
+      "LowSpeed": 5,
+      "HighSpeed": 120,
+      "ContainerId": "abd7b683-bf99-412b-95b9-dd0e22aa5b55",
+      "Filter": {
+        "GammaValue": 1.05,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "LocalizedSpeedContainer",
       "IsEnabled": false,
-      "Gain": 49.030303030302889,
+      "Gain": 43.0,
+      "Description": "Provide speed proportional feedback with left/right curving",
+      "LowSpeed": 5,
+      "HighSpeed": 120,
+      "AutoMaxSpeed": true,
+      "MaxSpeedPercent": 90.0,
+      "OnlyInTurns": false,
+      "Curvature": 50,
+      "ContainerId": "27923c57-ab7c-4642-805b-c0d3b8429c19",
+      "AggregationMode": "Left/Right",
+      "Filter": {
+        "GammaValue": 1.0,
+        "FilterType": "SimpleGammaFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "TCActiveEffectContainer",
+      "IsEnabled": true,
+      "Gain": 63.746666666666556,
+      "Description": "Provides feedback when TC is currently active",
+      "ContainerId": "de4b04d0-afa7-4090-b158-03fbc3546805",
+      "Filter": {
+        "Duration": 80,
+        "FilterType": "PulseFilter"
+      },
+      "Output": {
+        "OutputType": "VibrationOutput"
+      }
+    },
+    {
+      "ContainerType": "WheelsLockContainer",
+      "IsEnabled": true,
+      "Gain": 60.727272727272748,
       "Description": "Provide localized wheel slip and lock feedback under braking",
       "IsLock": true,
       "UseLegacyIracingAlgorythm": false,
       "LockSensibility": 50.0,
-      "BrakeFilter": 50,
-      "ContainerId": "5a7e66d9-b691-4bcf-b067-5bae2fb22d65",
-      "AggregationMode": "Corners",
+      "BrakeFilter": 20,
+      "ContainerId": "07d57e2a-1a25-43d3-a8c9-d03c38de0405",
+      "AggregationMode": "Front/Rear",
       "Filter": {
         "GammaValue": 1.0,
         "InputGain": 100.0,
@@ -882,60 +407,37 @@
       }
     },
     {
-      "ContainerType": "CustomEffectContainer",
-      "IsEnabled": false,
-      "Gain": 49.36363636363626,
-      "Description": "Turbo",
-      "FrontLeftFormula": {
-        "JSExt": 0,
-        "Interpreter": 1,
-        "Expression": "if ($prop('DataCorePlugin.GameRunning'))\r\n\treturn $prop('Turbo') ;\r\nreturn 0;\r\n\r\n\r\n"
-      },
-      "FrontRightFormula": {
-        "Expression": ""
-      },
-      "RearLeftFormula": {
-        "Expression": ""
-      },
-      "RearRightFormula": {
-        "Expression": ""
-      },
-      "ForceFrequencies": false,
-      "FrontLeftFrequencyFormula": {
-        "Expression": ""
-      },
-      "FrontRightFrequencyFormula": {
-        "Expression": ""
-      },
-      "RearLeftFrequencyFormula": {
-        "Expression": ""
-      },
-      "RearRightFrequencyFormula": {
-        "Expression": ""
-      },
-      "ContainerId": "138b923c-6cb6-4d43-804e-302f6ac2944d",
-      "AggregationMode": "Mono",
+      "ContainerType": "WheelsSlipContainer",
+      "IsEnabled": true,
+      "Gain": 59.272727272727252,
+      "Description": "Provide localized wheel slip feedback",
+      "BrakeFilter": 10,
+      "MuteWhenLockEffectIsActive": false,
+      "ThrottleFilter": 10,
+      "UseBrakeFilter": false,
+      "UseThrottleFilter": false,
+      "UseLegacyIracingAlgorythm": false,
+      "ContainerId": "bf6f8d18-aed2-43a3-bf3d-f967af01f8a0",
+      "AggregationMode": "Front/Rear",
       "Filter": {
         "GammaValue": 1.0,
-        "InputGain": 100.0,
+        "InputGain": 120.0,
         "MinimumForce": 0,
-        "Threshold": 0,
+        "Threshold": 90,
         "FilterType": "GammaFilter"
       },
       "Output": {
-        "AssignToChannelGroup": true,
-        "ChannelGroupName": "turbo",
         "OutputType": "VibrationOutput"
       }
     }
   ],
-  "AutoCalibrationRatio2": 100,
+  "AutoCalibrationRatio2": 0,
   "OutputMode": 0,
   "GlobalGain": 50.0,
   "UseProfileGain": false,
-  "LastLoaded": "2024-01-04T13:27:57.464213+01:00",
-  "Name": "DaZD - Drift Assetto Corsa",
-  "ProfileId": "4271909f-fa20-4b14-84f7-441bedb8be5d",
+  "LastLoaded": "2023-10-15T05:39:44.2978602+02:00",
+  "Name": "Assetto Corsa",
+  "ProfileId": "f6a40fbd-b89b-4c81-a642-c50be9d61cd7",
   "GameCode": "AssettoCorsa",
   "CarChoice": null
 }

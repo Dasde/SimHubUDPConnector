@@ -12,14 +12,13 @@ function CollisionsExtension:new (o)
 local carState = ac.getCar(0)
 
 function CollisionsExtension:update(dt, customData)
-    -- this part is required for the collisions detection
     customData.CollisionPositionX = carState.collisionPosition.x
     customData.CollisionPositionY = carState.collisionPosition.y
     customData.CollisionPositionZ = carState.collisionPosition.z
     customData.CollidedWithId = carState.collidedWith
     customData.CollidedWith = (carState.collidedWith == 0) and 'Track' or
-    ((carState.collidedWith > 0) and ac.getDriverName(carState.collidedWith-1) or 'None')
-    customData.ColliderSpeed = (carState.collidedWith > 0) and ac.getCar(carState.collidedWith-1).speedKmh or 0
+    ((carState.collidedWith > 0) and ac.getDriverName(carState.collidedWith) or 'None')
+    customData.ColliderSpeed = (carState.collidedWith > 0) and ac.getCar(carState.collidedWith).speedKmh or 0
 end
 
 return CollisionsExtension
