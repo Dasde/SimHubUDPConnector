@@ -1,13 +1,4 @@
-require("extensions.Extension")
-
 WeatherExtension = {}
-
-function WeatherExtension:new (o)
-    o = o or Extension:new(o)
-    setmetatable(o, self)
-    self.__index = self
-    return o
- end
 
 -- local carState = ac.getCar(0)
 local sim = ac.getSim()

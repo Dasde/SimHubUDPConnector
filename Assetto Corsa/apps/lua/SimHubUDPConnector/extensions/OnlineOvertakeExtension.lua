@@ -1,14 +1,5 @@
 ---@diagnostic disable: cast-local-type
-require("extensions.Extension")
-
 OnlineOvertakeExtension = {}
-
-function OnlineOvertakeExtension:new (o)
-    o = o or Extension:new(o)
-    setmetatable(o, self)
-    self.__index = self
-    return o
- end
 
  local DEBUG_ON = true
 

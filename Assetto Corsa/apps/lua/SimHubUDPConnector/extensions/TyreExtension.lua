@@ -7,16 +7,8 @@
 -- that are missing from standard data.   Currently sends tyre
 -- compound data as this is not available otherwise. 
 ---@diagnostic disable: param-type-mismatch
-require("extensions.Extension")
 
 TyreExtension = {}
-
-function TyreExtension:new(o)
-	o = o or Extension:new(o)
-	setmetatable(o, self)
-	self.__index = self
-	return o
-end
 
 local carState = ac.getCar(0)
 local carsUtils = require('shared/sim/cars') -- required for tyre.ini data

@@ -1,18 +1,9 @@
-require("extensions.Extension")
-
 TorquePower = {}
 
 local powerLut = nil
 local maxPowerHP = 0
 local maxTorque = 0
 local initialized = false
-
-function TorquePower:new(o)
-  o = o or Extension:new(o)
-  setmetatable(o, self)
-  self.__index = self
-  return o
-end
 
 local function initializePowerLUT()
   local car = ac.getCar(0)

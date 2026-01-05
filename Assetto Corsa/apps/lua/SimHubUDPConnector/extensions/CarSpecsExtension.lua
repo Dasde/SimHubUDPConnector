@@ -1,16 +1,7 @@
-require("extensions.Extension")
-
 CarSpecsExtension = {}
 
 local initialized = false
 local specJSON
-
-function CarSpecsExtension:new(o)
-  o = o or Extension:new(o)
-  setmetatable(o, self)
-  self.__index = self
-  return o
-end
 
 local function capitalizeFirst(str)
   return str:sub(1, 1):upper() .. str:sub(2):lower()

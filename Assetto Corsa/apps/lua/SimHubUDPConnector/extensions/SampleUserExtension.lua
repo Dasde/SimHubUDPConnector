@@ -1,16 +1,8 @@
 --[[ 
     RENAME THIS FILE TO UserExtension.lua TO ACTIVATE IT 
 ]]
-require("extensions.Extension")
-
 UserExtension = {}
 
-function UserExtension:new (o)
-    o = o or Extension:new(o)
-    setmetatable(o, self)
-    self.__index = self
-    return o
- end
 
 local carState = ac.getCar(0)
 local sim = ac.getSim()

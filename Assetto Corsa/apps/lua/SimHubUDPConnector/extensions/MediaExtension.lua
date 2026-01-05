@@ -1,13 +1,4 @@
-require("extensions.Extension")
-
 MediaExtension = {}
-
-function MediaExtension:new (o)
-    o = o or Extension:new(o)
-    setmetatable(o, self)
-    self.__index = self
-    return o
- end
 
 local function time(value)
   if value == -1 then return '--:--' end
@@ -26,7 +17,8 @@ function MediaExtension:update(dt, customData)
     customData.MediaExt_MediaSourceId = mediaData.sourceID
     customData.MediaExt_MediaHasCover = mediaData.hasCover
     customData.MediaExt_MediaElapsed = string.format('%s', time(mediaData.trackPosition))
-    customData.MediaExt_MediaElapsedPercent = mediaData.trackDuration > 0 and math.min(mediaData.trackPosition / mediaData.trackDuration * 100, 100) or 0
+    customData.MediaExt_MediaElapsedPercent = mediaData.trackPosition / mediaData.trackDuration * 100
+
 end
 
 return MediaExtension

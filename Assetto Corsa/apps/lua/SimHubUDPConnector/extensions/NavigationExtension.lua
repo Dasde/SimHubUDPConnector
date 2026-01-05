@@ -1,16 +1,6 @@
-require("extensions.Extension")
-
 NavigationExtension = {}
 
-function NavigationExtension:new(o)
-  o = o or Extension:new(o)
-  setmetatable(o, self)
-  self.__index = self
-  return o
-end
-
 local carState = ac.getCar(0)
--- local sim = ac.getSim()
 
 function NavigationExtension:update(dt, customData)
   local turn = ac.getTrackUpcomingTurn(carState.index)
