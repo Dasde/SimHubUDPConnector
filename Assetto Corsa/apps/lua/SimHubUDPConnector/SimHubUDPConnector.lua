@@ -37,7 +37,7 @@ local loadedExtensions = {}
 local loadedHightPriorityExtensions = {}
 local repoVersion = "0.0.0"
 local updatingApp = false
-local highPriorityExtensions = {"RoadRumbleExtension", "CollisionsExtension", "MirrorExtension"}
+local highPriorityExtensions = {"RoadRumbleExtension", "CollisionsExtension"}
 local jsonBuffer = {}
 local ROUNDING = 3
 local MULT = 10 ^ ROUNDING
@@ -178,12 +178,14 @@ end
 local function loadExtensions()
 	-- Scan for new extensions.
 	io.scanDir(ac.dirname() .. "/extensions", function(fileName, fileAttributes, callbackData)
-		local extName = fileName:replace(".lua", "")
-		if extName ~= "Extension" and extName ~= "SampleUserExtension" and not table.contains(obsoleteExtensions, extName) then
-			if ExtensionsSettingsLayout[extName] == nil then
-				ExtensionsSettingsLayout[extName] = false
+		if fileName:endsWith("Extension.lua") then
+			local extName = fileName:replace(".lua", "")
+			if extName ~= "Extension" and extName ~= "SampleUserExtension" and not table.contains(obsoleteExtensions, extName) then
+				if ExtensionsSettingsLayout[extName] == nil then
+					ExtensionsSettingsLayout[extName] = false
+				end
+				detectedExtensions[#detectedExtensions + 1] = extName
 			end
-			detectedExtensions[#detectedExtensions + 1] = extName
 		end
 	end)
 	ExtensionsSettings = ac.storage(ExtensionsSettingsLayout)
@@ -339,6 +341,24 @@ local function fastDataChanged(a, b)
     return false
 end
 
+local function disposeExtension(extension)
+	if extension and extension.dispose then
+		try(function ()
+			extension:dispose()
+		end)
+	end
+end
+
+local function drawExtensionSettingsTab(extension)
+	if extension and extension.drawSettingsTab then
+		try(function ()
+			extension:drawSettingsTab()
+		end, function (err)
+			print("Extension settings tab generated an error : " .. err)
+		end)
+	end
+end
+
 function script.update(dt)
 	slowUpdateTimer = slowUpdateTimer + dt
 	if slowUpdateTimer < slowUpdateRate then return end
@@ -393,6 +413,9 @@ function script.updateHighPriority(dt)
 	if fastDataChanged(customFastData, lastFastData) then
 		udp:send(ultraJSON(customFastData))
 		lastFastData = table.clone(customFastData)
+		if debugOn then
+			debugData(customFastData)
+		end
 	end
 end
 
@@ -408,7 +431,7 @@ function script.windowMain(dt)
 		ui.newLine()
 		return
 	end
-	ui.tabBar('someTabBarID', function()
+	ui.tabBar('simhubUDPConnectorTabBarID', function()
 		ui.tabItem('Extensions', function()
 			for _, extName in pairs(detectedExtensions) do
 				local value = ExtensionsSettings[extName]
@@ -427,10 +450,13 @@ function script.windowMain(dt)
 						end
 					else
 						if table.contains(highPriorityExtensions, extName) then
+							disposeExtension(loadedHightPriorityExtensions[extName])
 							loadedHightPriorityExtensions[extName] = nil
 						else
+							disposeExtension(loadedExtensions[extName])
 							loadedExtensions[extName] = nil
 						end
+						package.loaded["extensions." .. extName] = nil
 					end
 				end
 			end
@@ -485,5 +511,8 @@ function script.windowMain(dt)
 				end
 			end
 		end)
+		for _, ext in pairs(loadedExtensions) do
+			drawExtensionSettingsTab(ext)
+		end
 	end)
 end
