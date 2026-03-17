@@ -153,6 +153,19 @@ local function loadLuaScript(scriptName, scriptFolder, silent)
 	return ret
 end
 
+
+local alsTags = {"DBZ", "DOORBREAKERZ", "DOORBREAKER'Z", "CFD"}
+local function intersects(a, b)
+	for _, v in ipairs(b) do
+		for _, x in ipairs(a) do
+			if v == x then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 ---Try to load a car script based on a filter
 ---@param scriptName string
 ---@param carId string
@@ -179,6 +192,12 @@ local function tryLoadCarConnection()
 	if (not carScript) then
 		---@diagnostic disable-next-line: param-type-mismatch
 		carScript = loadLuaCarFilterScript("connection", carId, true)
+	end
+	if (not carScript) then
+		local tags = ac.getCarTags(0)
+		if tags and intersects(tags, alsTags) then
+			carScript = loadLuaScript("connection", "als", true)
+		end
 	end
 end
 
