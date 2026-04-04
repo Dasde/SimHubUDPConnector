@@ -85,6 +85,7 @@ function WeatherExtension:update(dt, customData)
     customData.WeatherExt_AmbientTemperature = sim.ambientTemperature
     customData.WeatherExt_RainIntensity = sim.rainIntensity
     customData.WeatherExt_RainWetness = sim.rainWetness
+    customData.WeatherExt_RainWater = sim.rainWater
     customData.WeatherExt_WeatherType = sim.weatherType
     customData.WeatherExt_WeatherUpcomingType = sim.weatherConditions.upcomingType
     customData.WeatherExt_WeatherTypeName = getWeatherTypeName(sim.weatherType)

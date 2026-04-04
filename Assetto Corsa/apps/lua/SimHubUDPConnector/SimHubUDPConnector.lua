@@ -189,14 +189,15 @@ local function tryLoadCarConnection()
 	local carId = ac.getCarID(0)
 	local carFolder = "cars/" .. carId
 	carScript = loadLuaScript("connection", carFolder, true)
-	if (not carScript) then
-		---@diagnostic disable-next-line: param-type-mismatch
-		carScript = loadLuaCarFilterScript("connection", carId, true)
-	end
+	-- not used anymore, deactivated for now
+	-- if (not carScript) then
+	-- 	---@diagnostic disable-next-line: param-type-mismatch
+	-- 	carScript = loadLuaCarFilterScript("connection", carId, true)
+	-- end
 	if (not carScript) then
 		local tags = ac.getCarTags(0)
 		if tags and intersects(tags, alsTags) then
-			carScript = loadLuaScript("connection", "als", true)
+			carScript = loadLuaScript("connection", "cars/als", true)
 		end
 	end
 end

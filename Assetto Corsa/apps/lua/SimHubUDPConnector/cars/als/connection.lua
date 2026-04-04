@@ -23,7 +23,7 @@ end
 function connection:carScript(customData)
     addCarData(DBZConnection, DBZSharedData, 'DBZ_', customData)
     customData.DBZ_ALSModesCount = #modeNames
-    customData.DBZ_ALSModeName = modeNames[DBZSharedData.ALSMode]
+    customData.DBZ_ALSModeName = modeNames[DBZConnection.ALSMode]
 end
 
 return connection
